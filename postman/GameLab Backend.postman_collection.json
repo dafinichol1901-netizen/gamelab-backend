@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "GameLab Backend API",
+    "description": "Permintaan latihan autentikasi, CRUD kelas, dan statistik GameLab.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "apiKey", "value": "" },
+    { "key": "kelasId", "value": "1" },
+    { "key": "email", "value": "admin@example.com" },
+    { "key": "password", "value": "ganti-password-admin" }
+  ],
+  "item": [
+    { "name": "Auth", "item": [
+      { "name": "Register user", "request": {
+        "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"nama\": \"Dafi\",\n  \"email\": \"dafi@example.com\",\n  \"password\": \"password-kuat-123\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/auth/register"
+      } },
+      { "name": "Login admin", "event": [{ "listen": "test", "script": {
+        "exec": ["if (pm.response.code === 200) {", "  pm.environment.set('token', pm.response.json().data.token);", "}"], "type": "text/javascript"
+      } }], "request": {
+        "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/auth/login"
+      } }
+    ] },
+    { "name": "Kelas", "item": [
+      { "name": "Daftar kelas", "request": { "method": "GET", "url": "{{baseUrl}}/api/kelas?page=1&limit=10" } },
+      { "name": "Detail kelas", "request": { "method": "GET", "url": "{{baseUrl}}/api/kelas/{{kelasId}}" } },
+      { "name": "Buat kelas (admin)", "request": {
+        "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"nama\": \"Kelas JavaScript\",\n  \"deskripsi\": \"Belajar dasar JavaScript\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/kelas"
+      } },
+      { "name": "Ubah kelas (admin)", "request": {
+        "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"deskripsi\": \"Belajar HTML5 dasar\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/kelas/{{kelasId}}"
+      } },
+      { "name": "Hapus kelas (admin)", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/kelas/{{kelasId}}" } }
+    ] },
+    { "name": "Stats", "item": [
+      { "name": "Ringkasan kelas", "request": { "method": "GET", "header": [{ "key": "x-api-key", "value": "{{apiKey}}" }], "url": "{{baseUrl}}/api/stats/summary" } }
+    ] }
+  ]
+}
