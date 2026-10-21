@@ -1,6 +1,6 @@
 # GameLab Backend
 
-REST API untuk membaca dan mengelola kelas GameLab. Proyek ini memakai Express dan **MongoDB Driver langsung** (bukan Mongoose), sehingga tetap sesuai dengan kode CRUD lama di `index.js` dan database `db_gamelab_indonesia`.
+REST API untuk membaca dan mengelola kelas GameLab. API di folder `src/` memakai Express dan **Mongoose** untuk mengakses collection `daftar_kelas_pemrograman` di database `db_gamelab_indonesia`. File `index.js` di root tetap menjadi latihan CLI terpisah yang memakai MongoDB Driver.
 
 ## Yang tersedia
 
@@ -73,7 +73,7 @@ Perintah bootstrap menolak membuat akun jika email tersebut sudah digunakan. Ia 
 | `GET` | `/api/stats/summary` | `x-api-key` | Jumlah kelas |
 | `GET` | `/api-docs` | Publik | Swagger UI |
 
-`limit` maksimal `100`; `sortBy` hanya menerima `_id`, `nama`, atau `deskripsi`. Hasil daftar ada di `data.items`, bersama `total`, `page`, `limit`, dan `totalPages`. ID lama berupa angka/string serta ID MongoDB `ObjectId` tetap didukung. Body kelas boleh mengikuti field dokumen yang sudah dipakai; `_id` tidak bisa diubah dan operator MongoDB ditolak.
+`limit` maksimal `100`; `sortBy` hanya menerima `_id`, `nama`, atau `deskripsi`. Hasil daftar ada di `data.items`, bersama `total`, `page`, `limit`, dan `totalPages`. Model kelas memakai `_id` bertipe Mixed agar ID angka dari data lama tetap bisa dibaca; data kelas baru memakai `ObjectId`. ID angka/string lama dan `ObjectId` tetap didukung. Body kelas boleh mengikuti field dokumen yang sudah dipakai; `_id` tidak bisa diubah dan operator MongoDB ditolak.
 
 Contoh body kelas:
 
@@ -100,7 +100,7 @@ Jalankan `npm test`. Jest dan Supertest menguji auth, validasi, pembatasan role,
 api/index.js                 entry point serverless Vercel
 src/config/                  koneksi MongoDB dan spesifikasi Swagger
 src/middlewares/             logger, auth, validasi, error, API key
-src/models/                  query koleksi MongoDB
+src/models/                  schema, model, dan query Mongoose
 src/services/                aturan bisnis
 src/controllers/             response HTTP
 src/routes/                  endpoint API
@@ -111,7 +111,7 @@ tests/                       tes Jest dan Supertest
 postman/                     collection dan environment contoh
 ```
 
-`index.js` lama tetap tersedia untuk latihan CLI sebelumnya. Endpoint baru memakai folder `src/`; keduanya menunjuk ke database yang sama.
+`index.js` lama tetap menjadi latihan CLI yang mengakses MongoDB Driver. REST API di folder `src/` memakai Mongoose. Keduanya menggunakan database yang sama.
 
 ## GitHub dan Vercel
 
@@ -119,4 +119,4 @@ Sebelum membuat repository online, pastikan tidak ada `.env`, token, atau passwo
 
 `api/index.js` dan `vercel.json` menyiapkan bentuk serverless Vercel. Untuk deploy, perlu repository GitHub, akun Vercel, `MONGODB_URI` yang bisa dijangkau dari cloud, serta `JWT_SECRET` dan `EXTERNAL_API_KEY` baru yang berbeda dari komputer lokal. Jangan gunakan `MONGODB_URI` localhost di hosting. Pengaturan Network Access database harus mengikuti pilihan jaringan yang aman dan cocok dengan hosting; jangan membuka akses database luas tanpa meninjau risikonya.
 
-Belum ada project yang di-push atau di-deploy dari konfigurasi ini. File ini hanya menyiapkan kodenya agar dapat ditinjau sebelum langkah publikasi.
+Proyek ini sudah di-push ke GitHub dan pernah di-deploy ke Vercel. Setelah perubahan ini, push commit baru agar Vercel membuat deployment terbaru. Pastikan environment variable di Vercel tetap berisi URI MongoDB cloud serta secret yang sesuai.

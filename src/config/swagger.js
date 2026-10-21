@@ -6,7 +6,7 @@ module.exports = swaggerJsdoc({
     info: {
       title: "GameLab Backend API",
       version: "1.0.0",
-      description: "API kelas GameLab dengan MongoDB Driver, autentikasi, validasi, dan pagination."
+      description: "API kelas GameLab dengan Mongoose, autentikasi, validasi, dan pagination."
     },
     servers: [{ url: "/", description: "Server yang sedang dibuka" }],
     components: { securitySchemes: {
