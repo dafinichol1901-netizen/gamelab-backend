@@ -1,11 +1,20 @@
 const { body, param, query } = require("express-validator");
 
-const allowedSortFields = ["_id", "nama", "deskripsi"];
+const allowedSortFields = ["_id", "nama", "nama_kelas", "deskripsi"];
 
 function safeDocument(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const keys = Object.keys(value).filter((key) => key !== "_id");
   if (!keys.length) return false;
+
+  for (const field of ["nama", "nama_kelas"]) {
+    if (Object.hasOwn(value, field)
+      && (typeof value[field] !== "string" || !value[field].trim() || value[field].length > 120)) return false;
+  }
+  if (Object.hasOwn(value, "deskripsi")
+    && (typeof value.deskripsi !== "string" || value.deskripsi.length > 2000)) return false;
+  if (Object.hasOwn(value, "versi")
+    && (!Number.isSafeInteger(value.versi) || value.versi < 1)) return false;
 
   const isSafeValue = (item, depth = 0) => {
     if (depth > 5) return false;

@@ -8,6 +8,7 @@ describe("statistik dengan API key", () => {
       { nama: "HTML" }, { nama: "JavaScript" }
     ]);
     await request(app).get("/api/stats/summary").expect(401);
+    await request(app).get("/api/stats/summary").set("x-api-key", "wrong-test-key").expect(401);
     const response = await request(app).get("/api/stats/summary")
       .set("x-api-key", process.env.EXTERNAL_API_KEY).expect(200);
     expect(response.body.data.totalKelas).toBe(2);

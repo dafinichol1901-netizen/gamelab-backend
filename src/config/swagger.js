@@ -14,5 +14,5 @@ module.exports = swaggerJsdoc({
       apiKeyAuth: { type: "apiKey", in: "header", name: "x-api-key" }
     } }
   },
-  apis: ["./src/routes/*.js"]
+  apis: ["./src/app.js", "./src/routes/*.js"]
 });

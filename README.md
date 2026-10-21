@@ -73,7 +73,7 @@ Perintah bootstrap menolak membuat akun jika email tersebut sudah digunakan. Ia 
 | `GET` | `/api/stats/summary` | `x-api-key` | Jumlah kelas |
 | `GET` | `/api-docs` | Publik | Swagger UI |
 
-`limit` maksimal `100`; `sortBy` hanya menerima `_id`, `nama`, atau `deskripsi`. Hasil daftar ada di `data.items`, bersama `total`, `page`, `limit`, dan `totalPages`. Model kelas memakai `_id` bertipe Mixed agar ID angka dari data lama tetap bisa dibaca; data kelas baru memakai `ObjectId`. ID angka/string lama dan `ObjectId` tetap didukung. Body kelas boleh mengikuti field dokumen yang sudah dipakai; `_id` tidak bisa diubah dan operator MongoDB ditolak.
+`limit` maksimal `100`; `sortBy` hanya menerima `_id`, `nama`, `nama_kelas`, atau `deskripsi`. Hasil daftar ada di `data.items`, bersama `total`, `page`, `limit`, dan `totalPages`. Model kelas memakai `_id` bertipe Mixed agar ID angka dari data lama tetap bisa dibaca; data kelas baru memakai `ObjectId`. ID angka/string lama dan `ObjectId` tetap didukung. Body kelas boleh mengikuti field dokumen yang sudah dipakai; `_id` tidak bisa diubah dan operator MongoDB ditolak.
 
 Contoh body kelas:
 
@@ -88,7 +88,7 @@ Error memakai status HTTP yang sesuai: `400` untuk input salah, `401` untuk toke
 
 ## Postman dan Swagger
 
-Import `postman/GameLab Backend.postman_collection.json` dan environment `postman/GameLab Local.postman_environment.json`. Isi password admin dan API key pada environment lokal. Jalankan request Login admin lebih dulu untuk menyimpan token; kemudian jalankan operasi CRUD. Swagger UI tersedia di `/api-docs` setelah server hidup.
+Import `postman/GameLab Backend.postman_collection.json` dan environment `postman/GameLab Local.postman_environment.json`. Isi password admin dan API key pada environment lokal. Jalankan request Login admin lebih dulu untuk menyimpan token; kemudian jalankan operasi CRUD. Swagger UI tersedia di `/api-docs` setelah server hidup. Dokumentasi production ada di [gamelab-backend.vercel.app/api-docs](https://gamelab-backend.vercel.app/api-docs/).
 
 ## Tes otomatis
 

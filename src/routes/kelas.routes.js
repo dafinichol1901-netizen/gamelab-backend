@@ -24,7 +24,7 @@ const router = express.Router();
  *         schema: { type: string, maxLength: 100 }
  *       - in: query
  *         name: sortBy
- *         schema: { type: string, enum: [_id, nama, deskripsi], default: _id }
+ *         schema: { type: string, enum: [_id, nama, nama_kelas, deskripsi], default: _id }
  *       - in: query
  *         name: order
  *         schema: { type: string, enum: [asc, desc], default: asc }

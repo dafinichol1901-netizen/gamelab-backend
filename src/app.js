@@ -11,6 +11,15 @@ const statsRoutes = require("./routes/stats.routes");
 const app = express();
 app.use(logger);
 app.use(express.json({ limit: "100kb" }));
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     tags: [Health]
+ *     summary: Periksa apakah API aktif
+ *     responses:
+ *       200: { description: API siap menerima request }
+ */
 app.get("/", (req, res) => res.status(200).json({ success: true, message: "GameLab Backend API siap." }));
 app.use("/api/auth", authRoutes);
 app.use("/api/kelas", kelasRoutes);
